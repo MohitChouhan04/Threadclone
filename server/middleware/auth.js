@@ -15,9 +15,9 @@ const auth = async (req , res ,next) =>{
             return res.status(400).json({msg : 'Error while decoding token in auth!'});
         }
         const user = await User.findById(decodedToken.token).populate('followers')
-        // .populate('threads')
-        // .populate('replies')
-        // .populate("repost");
+        .populate('threads')
+        .populate('replies')
+        .populate("repost");
         if(!user){
             return res.status(400).json({msg:'No user found!'});
         }

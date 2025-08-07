@@ -2,7 +2,7 @@ const User = require("../models/user-model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const formidable = require('formidable');
-const cloudinary = require('../config/cloudinary');
+const cloudinary = require('cloudinary');
 
 exports.signin = async (req, res) => {
   try {
@@ -238,5 +238,14 @@ exports.logout = async (req, res)=>{
   }catch (err){
     res.status(400).json({msg : "error in logout" , err:err.message})
 
+  }
+}
+
+exports.myInfo= async (req , res) =>{
+  try{
+    res.status(200).json({me:req.user});
+
+  }catch(err){
+    res.status(400).json({msg: 'error in myInfo!'});
   }
 }
