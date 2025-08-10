@@ -12,12 +12,14 @@ import Thread from "./pages/protected/profile/Thread";
 import Replies from './pages/protected/profile/Replies'
 import Repost from "./pages/protected/profile/Repost";
 import Singlepost from "./pages/protected/Singlepost";
+import { useSelector } from "react-redux";
 function App() {
+  const {darkMode} = useSelector((state=>state.service));
   const data = true;
 
   return (
     <>
-    <Box minHeight={'100vh'}>
+    <Box minHeight={'100vh'} className={darkMode?'mode':''}>
 
 
 

@@ -11,29 +11,35 @@ import {
 } from "@mui/material";
 import React, { useRef, useState } from "react";
 import { ImCross } from "react-icons/im";
+import { useDispatch, useSelector } from "react-redux";
+import { editProfileModel } from "../../redux/slice";
 
 const Editprofile = () => {
+  const {openEditProfileModel} = useSelector(state => state.service);
   const _700 = useMediaQuery("(min-width:700px)");
 
   const [pic, setPic] = useState();
   const [bio, setBio] = useState();
   const imgRef = useRef();
+  const dispatch = useDispatch();
   const handlephoto = () => {
     imgRef.current.click();
   };
 
-  const handleclose = () => {};
+  const handleclose = () => {
+    dispatch(editProfileModel(false))
+  };
   const handleupdate = () => {};
   return (
     <>
       <Dialog
-        open={true}
+        open={openEditProfileModel}
         onClose={handleclose}
         fullWidth
         fullScreen={_700 ? false : true}
       >
         <Box position={"absolute"} top={20} right={20} onClick={handleclose}>
-          <ImCross size={28} />
+          <ImCross size={28} className="image-icon"/>
         </Box>
         <DialogTitle textAlign={"center"} mb={5}>
           Edit profile

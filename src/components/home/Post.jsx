@@ -3,8 +3,17 @@ import { IoIosMore } from "react-icons/io";
 
 import Postone from './post/Postone';
 import PostTwo from './post/PostTwo';
+import { useDispatch } from 'react-redux';
+import { toggleMyMenu } from '../../redux/slice';
+import { useSelector } from 'react-redux';
 
 const Post = () => {
+      const {darkMode} = useSelector((state=>state.service));
+    const dispatch = useDispatch();
+    const handleOpenMenu = (e) =>{
+        dispatch(toggleMyMenu(e.currentTarget));
+
+    }
     const _700 = useMediaQuery("(min-width:700px)");
     const _400 = useMediaQuery("(min-width:400px)");
     const _300 = useMediaQuery("(min-width:300px)");
@@ -30,11 +39,11 @@ const Post = () => {
         </Stack>
         <Stack flexDirection={'row'} justifyContent={'center'} gap={1}
         fontSize={'1rem'}>
-            <Typography variant='caption' color={'grayText'} fontSize={'1rem'} position={'relative'} top={2}>24th
+            <Typography variant='caption' color={darkMode?'white':'grayText'} fontSize={'1rem'} position={'relative'} top={2}>24th
 
 
             </Typography>
-            <IoIosMore size={_700 ? 28 : 20}/>
+            <IoIosMore size={_700 ? 28 : 20} onClick={handleOpenMenu}/>
 
         </Stack>
 

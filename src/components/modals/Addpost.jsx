@@ -2,11 +2,14 @@ import { Dialog, useMediaQuery,Box, DialogTitle, DialogContent, Stack, Avatar, T
 import { ImCross } from "react-icons/im";
 import { FaImages } from "react-icons/fa";
 import React, { useRef, useState } from 'react'
-
+import { useDispatch, useSelector } from 'react-redux';
+import { addPostModel } from '../../redux/slice';
 const Addpost = () => {
+    const {openAddPostModal} = useSelector(state => state.service);
     const _700  = useMediaQuery("(min-width:700px)");
     const _500  = useMediaQuery("(min-width:500px)");
     const _300  = useMediaQuery("(min-width:300px)");
+    const dispatch = useDispatch();
     const handleMediaRef = () =>{
         mediaRef.current.click();
     };
@@ -18,10 +21,12 @@ const Addpost = () => {
 
     const mediaRef = useRef();
 
-    const handleclose= () =>{};
+    const handleclose= () =>{
+        dispatch(addPostModel(false));
+    };
   return (
     <>
-    <Dialog open={true} onClose={handleclose} fullWidth fullScreen={_700?false:true} >
+    <Dialog open={openAddPostModal} onClose={handleclose} fullWidth fullScreen={_700?false:true} >
         <Box position={'absolute'} top={20} right={20} onClick={handleclose}>
             <ImCross size={28} className='image-icon'/>
         </Box>

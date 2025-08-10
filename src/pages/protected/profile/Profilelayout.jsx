@@ -1,14 +1,20 @@
 import { Avatar, Button, Chip, Stack, Typography, useMediaQuery } from '@mui/material'
 import React from 'react'
 import { FaInstagram } from "react-icons/fa";
+import { useDispatch } from 'react-redux';
 import { Link, Outlet } from 'react-router-dom';
+import { editProfileModel } from '../../../redux/slice';
 const Profilelayout = () => {
   const _300 = useMediaQuery("(min-width:300px)");
   const _500 = useMediaQuery("(min-width:500px)");
 
   const _700 = useMediaQuery("(min-width:700px)");
 
-
+  const dispatch = useDispatch();
+  
+  const handleOpenEditModel = () =>{
+    dispatch(editProfileModel(true));
+  }
 
 
   return (
@@ -57,7 +63,7 @@ const Profilelayout = () => {
    }
 
 
-   }}>Edit Profile</Button>
+   }} onClick={handleOpenEditModel}>Edit Profile</Button>
    <Stack flexDirection={'row'} justifyContent={'space-evenly'} my={5}
    pb={2} borderBottom={'2px solid gray'}
    fontSize={_500?'1.2rem':_300?'1.1rem':"0.9rem"}

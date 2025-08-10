@@ -5,6 +5,7 @@ import Header from '../../components/Common/Header'
 import Addpost from '../../components/modals/Addpost'
 import Editprofile from '../../components/modals/Editprofile'
 import Mainmenu from '../../components/menu/Mainmenu'
+import Mymenu from '../../components/menu/Mymenu'
 const ProtectedLayout = () => {
   const _700 = useMediaQuery("(min-width:700px)")
   return (
@@ -13,9 +14,10 @@ const ProtectedLayout = () => {
     <Stack flexDirection={'column'} maxWidth={_700?'800px':'90%'} minWidth={'100%'} mx={'auto'} overflow={'hidden'}></Stack>
 
     <Header/>
-    {/* <Addpost/> */}
-    {/* <Editprofile/> */}
-    {/* <Mainmenu/> */}
+    <Addpost/>
+    <Editprofile/>
+    <Mainmenu/>
+    <Mymenu/>
     <Outlet/>
     </>
   )
