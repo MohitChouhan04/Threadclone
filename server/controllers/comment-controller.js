@@ -3,6 +3,7 @@ const Post = require('../models/post-model');
 const Comment = require('../models/comment-model');
 const { default: mongoose } = require('mongoose');
 
+
 exports.addComment = async (req,res) =>{
     try{
         const {id} = req.params;
@@ -40,7 +41,6 @@ exports.addComment = async (req,res) =>{
         res.status(400).json({msg : 'error in comment!' , err:err.message});
     }
 }
-
 exports.deleteComment = async (req , res) =>{
     try{
         const {postId , id} = req.params;

@@ -1,10 +1,14 @@
 import { Avatar, Button, Chip, Stack, Typography, useMediaQuery } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaInstagram } from "react-icons/fa";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, Outlet, useParams } from 'react-router-dom';
 import { editProfileModel } from '../../../redux/slice';
-import { useUserDetailsQuery } from '../../../redux/service';
+import { useFollowUserMutation, useUserDetailsQuery } from '../../../redux/service';
+import Editprofile from '../../../components/modals/Editprofile'
+
+
+
 const Profilelayout = () => {
   const _300 = useMediaQuery("(min-width:300px)");
   const _500 = useMediaQuery("(min-width:500px)");
@@ -12,12 +16,55 @@ const Profilelayout = () => {
   const _700 = useMediaQuery("(min-width:700px)");
 
   const dispatch = useDispatch();
+
   const params = useParams();
-  const {data} = useUserDetailsQuery(params.id);
+  const {data} = useUserDetailsQuery(params?.id);
+  const [followUser , followUserData] =  useFollowUserMutation();
+  const {darkMode , myInfo} = useSelector((state) => state.service);
+  const [myAccount , setMyAccount] = useState();
+  const [isFollowing , setIsFollowing] = useState();
+
+  const checkIsFollowing = () =>{
+    if(data && myInfo){
+      const isTrue = data.user.followers.filter((e) => e._id === myInfo._id);
+      if(isTrue.length > 0){
+        setIsFollowing(true);
+
+      }
+      setIsFollowing(false);
+    }
+  }
   
+  const checkIsMyAccount = ( ) =>{
+    if(data && myInfo){
+      const isTrue = data.user._id === myInfo._id;
+      setMyAccount(isTrue);
+
+    }
+  };
+  const handleFollow = async () =>{
+    if(data){
+      await followUser(data.user._id);
+    }
+  };
+  useEffect(() =>{
+    if(followUserData.isSuccess){
+      console.log(followUserData.data);
+    }
+    if(followUserData.isError){
+      console.log(followUserData.error.data);
+    }
+
+
+  },[followUserData.isSuccess,followUserData.isError])
   const handleOpenEditModel = () =>{
     dispatch(editProfileModel(true));
   }
+  useEffect(() =>{
+    checkIsFollowing();
+    checkIsMyAccount();
+
+  },[data] )
 
 
   return (
@@ -30,21 +77,24 @@ const Profilelayout = () => {
     flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}>
         <Stack flexDirection={'column'} gap={1} >
             <Typography 
-            variant='h2' fontWeight={'bold'} fontSize={_300?'2rem':'1rem'}>Mohit_chouhan04</Typography>
+            variant='h2' fontWeight={'bold'} fontSize={_300?'2rem':'1rem'}>{data ? data.user ?data.user.userName : '' :''}</Typography>
             <Stack flexDirection={'row'} alignItems={'center'} gap={1}>
             
             <Typography 
-            variant='h2' fontSize={_300? '1rem' : '0.8rem'}>Mohit_chouhan04</Typography>
+            variant='h2' fontSize={_300? '1rem' : '0.8rem'}>{data ? data.user ?data.user.email : '' :''}</Typography>
 
             <Chip label='my.net' size="small" sx={{fontSize: _300?"0.8rem":'0.6rem'}}/>
-
             </Stack>
+
+
         </Stack>
-        <Avatar src='' alt='' sx={{width:_300?60 :40, height:_300?60:40}}/>
+        <Avatar src={data ? data.user ?data.user.profilePic : 'bio' :'bio'} alt={data ? data.user ?data.user.userName : '' :''} sx={{width:_300?60 :40, height:_300?60:40}}/>
     </Stack>
-    <Typography variant='subtitled2'>This is a bio!</Typography>
+    <Typography variant='subtitled2'>{data ? data.user ? data.user.bio:'':''} bio</Typography>
     <Stack flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}>
-      <Typography variant='subtitled2' color='gray'>19 followers</Typography>
+      <Typography variant='subtitled2' color='gray'>{
+        data ? data.user ? data.user.followers.length > 0 ? `${data.user.followers.length} followers`: 'No Followers':'':''
+}</Typography>
       <FaInstagram size={_300?40:24}
       />
       
@@ -52,7 +102,7 @@ const Profilelayout = () => {
 
    </Stack>
 
-   <Button size='large' sx={{color:'black' ,
+   <Button size='large' sx={{color:darkMode? 'whitesmoke' :'black' ,
    width:_700?'800px':'90%',
    margin:'0 auto',
    display:'block',
@@ -66,7 +116,7 @@ const Profilelayout = () => {
    }
 
 
-   }} onClick={handleOpenEditModel}>Edit Profile</Button>
+   }} onClick={myAccount ? handleOpenEditModel : handleFollow}>{myAccount ? 'Edit Profile' : isFollowing ? 'unfollow' : 'Follow user' }</Button>
    <Stack flexDirection={'row'} justifyContent={'space-evenly'} my={5}
    pb={2} borderBottom={'2px solid gray'}
    fontSize={_500?'1.2rem':_300?'1.1rem':"0.9rem"}
@@ -74,11 +124,12 @@ const Profilelayout = () => {
    mx={'auto'}
    
    > 
-   <Link to={'/profile/threads/1'} className='link'>Threads</Link>
-   <Link to={'/profile/replies/1'} className='link'>Replies</Link>
-   <Link to={'/profile/reposts/1'} className='link'>Reposts</Link>
+   <Link to={`/profile/threads/${data?.user._id}`} className={`link ${darkMode ? 'mode' :'' }`}>Threads</Link>
+   <Link to={`/profile/replies/${data?.user._id}`} className={`link ${darkMode ? 'mode' :'' }`}>Replies</Link>
+   <Link to={`/profile/repost/${data?.user._id}`} className={`link ${darkMode ? 'mode' :'' }`}>Reposts</Link>
    </Stack>
    <Outlet/>
+   <Editprofile/>
    </>
    
   )

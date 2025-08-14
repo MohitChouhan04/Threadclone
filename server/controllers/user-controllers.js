@@ -168,7 +168,7 @@ exports.updateProfile = async (req , res) =>{
         
         await User.findByIdAndUpdate(
           req.user._id , 
-          {bio:fields,text},
+          {bio:fields.text},
           {new:true}
         );
       }

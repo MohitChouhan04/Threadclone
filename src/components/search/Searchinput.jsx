@@ -7,6 +7,7 @@ import { addToSearchedUsers } from '../../redux/slice';
 const Searchinput = () => {
     const {darkMode} = useSelector((state)=>state.service);
     const [query , setQuery] = useState();
+
     const [searchUser , searchUserData] = useLazySearchUserQuery();
     const dispatch = useDispatch();
 
@@ -55,7 +56,8 @@ const Searchinput = () => {
             <FaSearch size={28}/>
             </InputAdornment>
         )
-    }} onChange={(e) => setQuery(e.target.value)}
+    }} 
+    onChange={(e) => setQuery(e.target.value)}
     onKeyUp={handlSearch}
     />
   

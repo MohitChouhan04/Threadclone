@@ -14,6 +14,7 @@ const Profilebar = ({e}) => {
     boxShadow={'5px 5px 5px gray'}
     width={_700?'80%': "90%"}
     borderRadius={'15px'}
+    maxWidth={'700px'}
     sx={{':hover':{cursor:'pointer'}}}
     >
     <Stack flexDirection={'row'} gap={2}>

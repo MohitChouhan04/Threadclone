@@ -12,7 +12,7 @@ return(
     <Searchinput />
     </Stack>
     <Stack 
-    flexDirection={'column'} gap={1} mb={5} width={'90%'} mx={'auto'}
+    flexDirection={'column'} gap={1} mb={5} width={'100%'} mx={'auto'}
     maxWidth={'750px'} >
         {
             searchedUser ? searchedUser.length > 0 ?searchedUser.map((e) =>{
@@ -23,10 +23,7 @@ return(
         }
         
         <Profilebar/>
-        <Profilebar/>
-        <Profilebar/>
-        <Profilebar/>
-        <Profilebar/>
+  
     </Stack>
     {/* <Profilebar/> */}
     </>

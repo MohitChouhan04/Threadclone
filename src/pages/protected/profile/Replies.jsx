@@ -1,13 +1,23 @@
 import React from 'react'
 import { Stack, useMediaQuery } from '@mui/system'
 import Comment from '../../../components/home/post/Comment'
+import { useSelector } from 'react-redux'
+import { Typography } from '@mui/material'
 const Replies = () => {
+  const {user} =useSelector((state) => state.service);
   const _700 = useMediaQuery("(min-width:700px)");
   return (
    <>
    <Stack flexDirection={'column'} gap={2} width={_700?'800px':'90%'} margin={'0 auto'} display={'block'}>
     {/* //comment */}
-    <Comment/>
+    {
+      user ? user.user ? user.user.replies.length > 0 ? user.user.Replies.map((e)=>{
+        return <Comment key={e._id} e = {e} postId={e.post}/>
+      }) : <Typography textAlign={'center'} variant='h6'>
+        No Replies Yet
+
+      </Typography>:null :null
+    }
   
 
    </Stack>
