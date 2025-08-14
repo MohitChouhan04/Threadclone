@@ -2,8 +2,9 @@ import { Avatar, Button, Chip, Stack, Typography, useMediaQuery } from '@mui/mat
 import React from 'react'
 import { FaInstagram } from "react-icons/fa";
 import { useDispatch } from 'react-redux';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useParams } from 'react-router-dom';
 import { editProfileModel } from '../../../redux/slice';
+import { useUserDetailsQuery } from '../../../redux/service';
 const Profilelayout = () => {
   const _300 = useMediaQuery("(min-width:300px)");
   const _500 = useMediaQuery("(min-width:500px)");
@@ -11,6 +12,8 @@ const Profilelayout = () => {
   const _700 = useMediaQuery("(min-width:700px)");
 
   const dispatch = useDispatch();
+  const params = useParams();
+  const {data} = useUserDetailsQuery(params.id);
   
   const handleOpenEditModel = () =>{
     dispatch(editProfileModel(true));
@@ -33,7 +36,7 @@ const Profilelayout = () => {
             <Typography 
             variant='h2' fontSize={_300? '1rem' : '0.8rem'}>Mohit_chouhan04</Typography>
 
-            <Chip Label='threads.net' size="small" sx={{fontSize: _300?"0.8rem":'0.6rem'}}/>
+            <Chip label='my.net' size="small" sx={{fontSize: _300?"0.8rem":'0.6rem'}}/>
 
             </Stack>
         </Stack>

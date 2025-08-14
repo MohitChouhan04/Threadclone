@@ -9,19 +9,26 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ImCross } from "react-icons/im";
 import { useDispatch, useSelector } from "react-redux";
 import { editProfileModel } from "../../redux/slice";
+import { useParams } from "react-router-dom";
+import { useUpdateProfileMutation, useUserDetailsQuery } from "../../redux/service";
+import Loading from '../Common/Loading'
+
 
 const Editprofile = () => {
-  const {openEditProfileModel} = useSelector(state => state.service);
+  const {openEditProfileModel , myInfo} = useSelector(state => state.service);
   const _700 = useMediaQuery("(min-width:700px)");
 
   const [pic, setPic] = useState();
   const [bio, setBio] = useState();
+  const params = useParams();
   const imgRef = useRef();
   const dispatch = useDispatch();
+  const [updateProfile , updateProfileData] = useUpdateProfileMutation();
+  const {refetch} = useUserDetailsQuery(params?.id);
   const handlephoto = () => {
     imgRef.current.click();
   };
@@ -29,7 +36,30 @@ const Editprofile = () => {
   const handleclose = () => {
     dispatch(editProfileModel(false))
   };
-  const handleupdate = () => {};
+  const handleupdate = async () => {
+    if(pic || bio){
+      const data = new FormData();
+      if(bio){
+        data.append('text' , bio);
+
+      }
+      if(pic){
+        data.append('media' , pic);
+        
+      }
+      await updateProfile(data);
+    }
+    dispatch(editProfileModel(false));
+  };
+  useEffect(()=>{
+    if(updateProfileData.isSuccess){
+      refetch();
+      console.log(updateProfileData.data);
+    }
+        if(updateProfileData.isError){
+      console.log(updateProfileData.error.data);
+    }
+  },[updateProfileData.isSuccess , updateProfileData.isError]);
   return (
     <>
       <Dialog
@@ -38,6 +68,14 @@ const Editprofile = () => {
         fullWidth
         fullScreen={_700 ? false : true}
       >
+        {
+          updateProfileData.isLoading?<Stack height={'60vh'}> 
+          <Loading/>
+
+          </Stack> :
+          <>
+          
+        
         <Box position={"absolute"} top={20} right={20} onClick={handleclose}>
           <ImCross size={28} className="image-icon"/>
         </Box>
@@ -48,8 +86,8 @@ const Editprofile = () => {
         <DialogContent>
           <Stack flexDirection={"column"} gap={1}>
             <Avatar
-              src={pic ? URL.createObjectURL(pic) : ""}
-              alt=""
+              src={pic ? URL.createObjectURL(pic) : myInfo ? myInfo.profilePic : ''}
+              alt={myInfo ? myInfo.useName : ' '}
               sx={{ width: 96, height: 96, alignSelf: "center" }}
             />
             <Button
@@ -83,13 +121,13 @@ const Editprofile = () => {
               fontSize={"1.2rem"}
               my={2}
             >
-              {" "}
+            
               Username
             </Typography>
 
             <input
               type="text"
-              value={"mohit_chouhan"}
+              value={myInfo ? myInfo.userName : ''}
               readOnly
               className="text1"
             />
@@ -107,7 +145,7 @@ const Editprofile = () => {
 
             <input
               type="text"
-              value={"mohit_chouhan"}
+              value={myInfo ? myInfo.email : ''}
               readOnly
               className="text1"
             />
@@ -128,7 +166,8 @@ const Editprofile = () => {
               
             
               className="text1 "
-              placeholder=""
+              placeholder={myInfo ? myInfo.bio : ' '}
+              value={bio ? bio : ''}
               onChange={(e) => setBio(e.target.value)}
             />
           </Stack>
@@ -149,6 +188,8 @@ const Editprofile = () => {
             Update
           </Button>
         </DialogContent>
+          </>
+        }
       </Dialog>
     </>
   );

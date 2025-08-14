@@ -1,38 +1,54 @@
 import { Button, Stack, TextField, Typography, useMediaQuery } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useSigninMutation , useLoginMutation} from '../redux/service';
 
 const Register = () => {
   //  logic
+  const [signinUser , signinUserData]  = useSigninMutation();
+    const [loginUser , loginUserData]  = useLoginMutation();
   const _700= useMediaQuery("(min-width:700px)");
 
   const [login, setLogin] = useState(false);
-  const [username, setUsername] = useState('');
+  const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   
   const toggleLogin = () =>{
     setLogin((pre)=> !pre);
   };
-  const handleLogin = () =>{
+  const handleLogin = async () =>{
     const data ={
       
-      email:email,//first is identifier it name anything
-      password:password,
+      email,//first is identifier it name anything
+      password,
 
 
     }
-  console.log(data);
+  await loginUser(data);
   };
-  const handleRegister = () =>{
+  const handleRegister = async () =>{
     const data ={
-      username:username, //first is identifier it name anything
-      email:email,
-      password:password,
+      userName, //first is identifier it name anything
+      email,
+      password,
 
 
     }
-    console.log(data);
+    await signinUser(data);
   };
+
+  useEffect(() => {
+    if(signinUserData.isSuccess){
+      console.log(signinUserData.data);
+
+    }
+    if(loginUserData.isSuccess){
+      console.log(loginUserData.data);
+    }
+  }, [signinUserData.isSuccess , loginUserData.isSuccess]);
+
+  
+
 
 
 
@@ -54,7 +70,7 @@ const Register = () => {
           login ? null :
         <TextField 
         variant='outlined' placeholder='Enter your username...'
-        onChange={(e)=>setUsername(e.target.value)} //get the value of e by e.target.value
+        onChange={(e)=>setUserName(e.target.value)} //get the value of e by e.target.value
         />
         }
 

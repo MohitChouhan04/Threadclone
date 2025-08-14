@@ -1,15 +1,29 @@
 import { Menu, MenuItem } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleMyMenu } from "../../redux/slice";
+import { useDeletePostMutation } from "../../redux/service";
 
 const Mymenu = () => {
-     const {anchorE2} = useSelector((state) => state.service);
+     const {anchorE2 , postId} = useSelector((state) => state.service);
      const dispatch = useDispatch();
+     const [deletePost , deletePostData] = useDeletePostMutation();
     const handleclose =  () =>{
       dispatch(toggleMyMenu(null));
     };
-    const handleDeletPost = () =>{};
+    const handleDeletPost =async () =>{
+      handleclose();
+      await deletePost(postId)
+
+    };
+    useEffect(() => {
+      if(deletePostData.isSuccess){
+        console.log(deletePostData.data);
+      }
+      if(deletePostData.isError){
+        console.log(deletePostData.error.data);
+      }
+    },[deletePostData.isSuccess , deletePostData.isError])
   return (
     <Menu
       anchorEl={anchorE2}

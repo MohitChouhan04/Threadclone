@@ -1,7 +1,8 @@
 import { Avatar, Button, Stack, Typography, useMediaQuery } from "@mui/material"
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
-const Profilebar = () => {
+const Profilebar = ({e}) => {
   const {darkMode} = useSelector((state=>state.service));
   const _700 = useMediaQuery("(min-width:700px)")
   return (
@@ -16,21 +17,25 @@ const Profilebar = () => {
     sx={{':hover':{cursor:'pointer'}}}
     >
     <Stack flexDirection={'row'} gap={2}>
-        <Avatar src="" alt=""/>
+        <Avatar src={e ? e.profilePic : ''} alt={e ? e.userName : ''} />
         <Stack 
         flexDirection={'column'} >
-            <Typography variant="h6" fontWeight={'bold'} fontSize={_700?'1rem':"0.9rem"}>Mohit_chouhan04</Typography>
+          <Link to={`/profile/threads/${e?._id}`} className="link">
+            <Typography variant="h6" fontWeight={'bold'} fontSize={_700?'1rem':"0.9rem"}>{e ? e.userName:''}</Typography>
+          </Link>
             
-            <Typography variant="caption" fontSize={_700?'1.1rem':"0.75rem"} color="grey">This is Bio</Typography>
+            <Typography variant="caption" fontSize={_700?'1.1rem':"0.75rem"} color="grey">{e ?e.bio : ''}</Typography>
 
-            <Typography variant="caption" fontSize={_700?'1rem':'0.9rem'} >3 followers</Typography>
+            <Typography variant="caption" fontSize={_700?'1rem':'0.9rem'} >{e ? e.followers.length : 0} followers</Typography>
         </Stack>
     </Stack>
+     <Link to={`/profile/threads/${e?._id}`} className="link">
     <Button size="medium" sx={{
         border:'1px solid gray',color:darkMode?'whitesmoke':'black' , borderRadius:'10px',
         p:2 , 
         height:40
         }}>Follow</Button>
+        </Link>
     </Stack>
     </>
   )

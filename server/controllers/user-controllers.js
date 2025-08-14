@@ -10,6 +10,7 @@ exports.signin = async (req, res) => {
     if (!userName || !email || !password) {
       return res.status(400).json({ msg: "serName , email , password are required" });
     }
+    
     const userExist = await User.findOne({ email });
     if (userExist) {
       return res.status(400).json({ msg: "User is already register! please Login" });
@@ -40,6 +41,7 @@ exports.signin = async (req, res) => {
       httpOnly: true,
       sameSite: "none",
       secure: true,
+      partitioned : true,
     });
 
     res.status(201).json({ msg: `User Signed in succesfully! hello ${result?.userName} ` });
@@ -76,6 +78,7 @@ exports.login = async (req , res) => {
       httpOnly:true,
       secure:true,
       sameSite:"none",
+      partitioned : true,
 
     });
     res.status(200).json({msg:"user logged in successfully!"});

@@ -1,11 +1,15 @@
 import { Dialog, useMediaQuery,Box, DialogTitle, DialogContent, Stack, Avatar, Typography ,Button} from '@mui/material'
 import { ImCross } from "react-icons/im";
 import { FaImages } from "react-icons/fa";
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { addPostModel } from '../../redux/slice';
+import { useAddPostMutation } from '../../redux/service';
+import Loading from '../Common/Loading'
+
 const Addpost = () => {
-    const {openAddPostModal} = useSelector(state => state.service);
+    const {openAddPostModal ,myInfo} = useSelector(state => state.service);
+    const [addNewPost , addNewPostData] = useAddPostMutation();
     const _700  = useMediaQuery("(min-width:700px)");
     const _500  = useMediaQuery("(min-width:500px)");
     const _300  = useMediaQuery("(min-width:300px)");
@@ -13,8 +17,32 @@ const Addpost = () => {
     const handleMediaRef = () =>{
         mediaRef.current.click();
     };
-    const handlepost = () => {};
-    
+    const handlepost = async () => {
+        const data = new FormData();
+        if(text){
+            
+            data.append('text' , text);
+        }
+        if(media){
+
+            data.append('media' , media);
+        }
+        await addNewPost(data);
+
+    };
+    useEffect(() =>{
+
+        if(addNewPostData.isSuccess){
+            setText();
+            setMedia();
+            dispatch(addPostModel.data(false))
+            console.log(addNewPostData.data);
+        }
+
+        if(addNewPostData.isError){
+            console.log(addNewPostData.error.data);
+        }
+    } , [addNewPostData.isSuccess , addNewPostData.isSuccess])
 
     const [text , setText] = useState();
     const [media , setMedia] = useState();
@@ -24,23 +52,31 @@ const Addpost = () => {
     const handleclose= () =>{
         dispatch(addPostModel(false));
     };
+  
+
+
+
   return (
     <>
     <Dialog open={openAddPostModal} onClose={handleclose} fullWidth fullScreen={_700?false:true} >
-        <Box position={'absolute'} top={20} right={20} onClick={handleclose}>
+        {
+            addNewPostData?.isLoading ? <Stack height={'60vh'}>
+                <Loading/>
+            </Stack> : <>
+                    <Box position={'absolute'} top={20} right={20} onClick={handleclose}>
             <ImCross size={28} className='image-icon'/>
         </Box>
 
-        <DialogTitle textAlign={'center'} mb={5} >new Thread..</DialogTitle>
+        <DialogTitle textAlign={'center'} mb={5} >new Post...</DialogTitle>
         <DialogContent>
             <Stack flex={'row'} gap={2} mb={5}>
-                <Avatar src='' alt=''/>
+                <Avatar src={myInfo? myInfo.profilePic:''} alt={myInfo? myInfo.useName:''}/>
 
                 <Stack>
                 <Typography variant='h6' fontWeight={"bold"}
                     fontSize={'1rem'}
                 >
-                        mohit_12
+                        {myInfo? myInfo.useName:''}
 
                  </Typography>
                     <textarea cols={_500?40:25} rows={2} className='text1' placeholder='start a Thread...'  autoFocus onChange={(e)=>setText(e.target.value)}/>
@@ -78,7 +114,10 @@ const Addpost = () => {
                 </Button>
 
             </Stack>
-        </DialogContent>
+        </DialogContent> </>
+    
+        }
+
 
 
     </Dialog>

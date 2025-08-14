@@ -13,9 +13,21 @@ import Replies from './pages/protected/profile/Replies'
 import Repost from "./pages/protected/profile/Repost";
 import Singlepost from "./pages/protected/Singlepost";
 import { useSelector } from "react-redux";
+import { useMyInfoQuery } from "./redux/service";
 function App() {
-  const {darkMode} = useSelector((state=>state.service));
-  const data = true;
+  const {darkMode , myInfo} = useSelector((state=>state.service));
+  const {data , isError}= useMyInfoQuery();
+  if(isError || !data){
+    return (
+      <BrowserRouter>
+      <Routes>
+        <Route exact path="/" element={<Register/>}/>
+
+      </Routes>
+      </BrowserRouter>
+    );
+  }
+
 
   return (
     <>
@@ -23,12 +35,12 @@ function App() {
 
 
 
-    {/* <Register/> */}
+    
     <BrowserRouter>
     
    
     <Routes>
-      { data ?(
+     
       <Route exact path="/" element={<ProtectedLayout/>}>
       <Route exact path="" element={<Home/>}/>
       <Route exact path="post/:id" element={<Singlepost/>}/>
@@ -38,10 +50,8 @@ function App() {
       <Route exact path="replies/:id" element={<Replies/>}/>
       <Route exact path="reposts/:id" element={<Repost/>}/>
       </Route>
-      </Route> ):(
-      <Route exact path="/" element={<Register/>}/>
-      )
-     }
+      </Route> 
+      
      <Route exact path="*" element={<Error/>}/>
       
  
