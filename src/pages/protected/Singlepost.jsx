@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Stack, TextField } from '@mui/material'
 import Post from '../../components/home/Post'
-import Comment from '../../components/home/post/Comment'
+import Comments from '../../components/home/post/Comments'
 import { useParams } from 'react-router-dom'
 import { useAddCommentMutation, useSinglePostQuery } from '../../redux/service'
 const Singlepost = () => {
@@ -45,9 +45,9 @@ const Singlepost = () => {
 
         <Stack flexDirection={'column'} gap={2} width={'80%'} mx={'auto'}>
             {
-              data ? data.post.comments.length > 0 ? 
+              data ? data?.post.comments?.length > 0 ? 
               data.post.comments.map((e)=>{
-                return <Comment key={e._id} e={e} postId ={data?.post._id}/>;
+                return <Comments key={e._id} e={e} postId ={data?.post._id}/>;
               }):null:null
             }
         </Stack>

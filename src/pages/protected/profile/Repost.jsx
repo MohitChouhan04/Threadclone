@@ -11,7 +11,7 @@ const Repost = () => {
      <>
       {user ? (
         user.user ? (
-          user.user.reposts.length > 0 ? (
+          user.user.repost.length > 0 ? (
             <Stack
               flexDirection={"column"}
               gap={2}

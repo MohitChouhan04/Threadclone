@@ -1,6 +1,6 @@
 import React from 'react'
-import { Stack, useMediaQuery } from '@mui/system'
-import Comment from '../../../components/home/post/Comment'
+import { Stack, useMediaQuery } from '@mui/material'
+import Comments from '../../../components/home/post/Comments'
 import { useSelector } from 'react-redux'
 import { Typography } from '@mui/material'
 const Replies = () => {
@@ -11,8 +11,8 @@ const Replies = () => {
    <Stack flexDirection={'column'} gap={2} width={_700?'800px':'90%'} margin={'0 auto'} display={'block'}>
     {/* //comment */}
     {
-      user ? user.user ? user.user.replies.length > 0 ? user.user.Replies.map((e)=>{
-        return <Comment key={e._id} e = {e} postId={e.post}/>
+      user ? user.user ? user.user.replies.length > 0 ? user.user.replies.map((e)=>{
+        return <Comments key={e._id} e = {e} postId={e.post}/>
       }) : <Typography textAlign={'center'} variant='h6'>
         No Replies Yet
 

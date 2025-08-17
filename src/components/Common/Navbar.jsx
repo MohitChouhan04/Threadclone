@@ -9,7 +9,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addPostModel } from '../../redux/slice';
 import { useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const Navbar = () => {
   
@@ -23,7 +23,7 @@ const Navbar = () => {
   const [showArrow , setShowArrow] = useState(false);
   const checkArrow = () => {
      if (window.location.pathname.startsWith('/post/') && _700){
-      showArrow(true);
+      setShowArrow(true);
       return ;
 
      }
@@ -38,7 +38,7 @@ const Navbar = () => {
   const handleNavigate = ()  =>{
     navigate(-1);
   }
-  useState(() => {
+  useEffect(() => {
     checkArrow();
   } , [window.location.pathname])
   return (
@@ -49,7 +49,7 @@ const Navbar = () => {
     alignItems={'center'}
     >
      {
-      showArrow ?  <FaArrowLeft size={_300?32 : 24} className='image-icon' color={darkMode ?'white' :'black'}/>
+      showArrow ?  <FaArrowLeft size={_300?32 : 24} className='image-icon' color={darkMode ?'white' :'black'} onClick={handleNavigate}/>
       : null
      }
 
@@ -59,9 +59,9 @@ const Navbar = () => {
         <Link to={'/search'} className='link'>
         <CiSearch size={_300?32 : 24} color={darkMode ?'white' :'black'}/>
         </Link>
-        <Link to={'/edit'} className='link'>
+       
         <TbEdit size={_300?32 : 24} className='image-icon'  color={darkMode ?'white' :'black'} onClick={handleAddPost}/>
-        </Link>
+    
         <Link to={'/heart'} className='link'>
         <CiHeart size={_300?32 : 24} color={darkMode ?'white' :'black'}/>
         </Link>

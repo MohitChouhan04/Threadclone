@@ -16,7 +16,7 @@ const Postone = ({e}) => {
                 position:_700 ? 'relative' : 'initial',
                 right:_700?4 : 0,
                 bottom:_700?4:0
-            }}> + </Avatar>
+            }}> {""}+{""} </Avatar>
         }
         >
             <Avatar alt={e?e.admin.userName : ''} src={e ?e.admin.profilePic :''} sx={{width:_700?40:32,height:_700?40:32}} /> 

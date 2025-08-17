@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import {InputAdornment, TextField,useMediaQuery} from '@mui/material'
+import { useEffect, useState } from 'react'
+import {InputAdornment, TextField} from '@mui/material'
 import { FaSearch } from "react-icons/fa";
 import { useDispatch, useSelector } from 'react-redux';
 import { useLazySearchUserQuery } from '../../redux/service';
@@ -10,8 +10,9 @@ const Searchinput = () => {
 
     const [searchUser , searchUserData] = useLazySearchUserQuery();
     const dispatch = useDispatch();
+    const [results, setResults] = useState([]);
 
-    const handlSearch = async (e) =>{
+    const handleSearch = async (e) =>{
         if(query && e.key === 'Enter'){
             await searchUser(query);
         }
@@ -55,14 +56,14 @@ const Searchinput = () => {
             <InputAdornment position='start' sx={{color:darkMode?'whitesmoke':'black'}}>
             <FaSearch size={28}/>
             </InputAdornment>
-        )
+        ),
     }} 
     onChange={(e) => setQuery(e.target.value)}
-    onKeyUp={handlSearch}
+    onKeyUp={handleSearch}
     />
   
     </>
   )
 }
 
-export default Searchinput
+export default Searchinput;

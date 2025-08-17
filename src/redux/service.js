@@ -46,14 +46,14 @@ export const serviceApi = createApi({
             },
         }),
         logoutMe : builder.mutation({
-            query: () =>({
+           
                 query : () =>({
                     url : 'logout',
                     method : 'POST'
                 }),
                 invalidatesTags : ['Me'],
             }),
-        }),
+      
         userDetails: builder.query({
             query : (id)=>({
                 url : `user/${id}`,
@@ -122,7 +122,7 @@ export const serviceApi = createApi({
 
         allPost : builder.query({
             query: (page) =>({
-                url:`Post ? page=${page}`,
+                url:`post?page=${page}`,
                 method:'GET'
 
             }),

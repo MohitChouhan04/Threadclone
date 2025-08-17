@@ -2,7 +2,8 @@ const User = require("../models/user-model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const formidable = require('formidable');
-const cloudinary = require('cloudinary');
+const cloudinary = require('../config/cloudinary');
+const { useEffect } = require("react");
 
 exports.signin = async (req, res) => {
   try {
@@ -62,7 +63,8 @@ exports.login = async (req , res) => {
       return res.status(400).json({msg : "please signin first!"});
 
     }
-    const passwordMatched = bcrypt.compare(password , userExist.password);
+    console.log(userExist);
+    const passwordMatched = await bcrypt.compare(password , userExist.password);
     // console.log(passwordMatched);
     if(!passwordMatched){
       return res.status(400).json({msg: "Incorrect Credential"});
@@ -100,11 +102,12 @@ exports.userDetails = async (req ,res) =>{
     const user = await User.findById(id)
     .select('-password')
     .populate('followers')
-    // .populate('replies')
+  
     .populate({path : 'threads',populate:[{path:'likes'},{path:'comments'},{path:'admin'}]
     })
     .populate({path:'replies' , populate:{path:"admin"}})
-    .populate({path:'repost' ,populate:[{path:'likes'},{path:'comments'},{path:'admin'}],
+    .populate({path:'repost' 
+      ,populate:[{path:'likes'},{path:'comments'},{path:'admin'}],
     });
 
   res.status(200).json({msg : 'User Details Fetched' ,user});
@@ -184,12 +187,12 @@ exports.updateProfile = async (req , res) =>{
         const uploadedImage = await cloudinary.uploader.upload(files.media.filepath , {folder : 'Threads_clone_new/Profiles'}
 
         );
-        console.log(uploadedImage);
+        // console.log(uploadedImage);
         if(!uploadedImage){
           return res.status(400).json({msg : 'Error while uploading pic !'});
         }
         await User.findByIdAndUpdate(req.user._id,{
-          profilepic:uploadedImage.secure_url,
+          profilePic:uploadedImage.secure_url,
           public_id:uploadedImage.public_id,
         },{new:true});
 
@@ -205,7 +208,7 @@ exports.updateProfile = async (req , res) =>{
   }
 
 
-}
+};
 
 
 exports.searchUser = async (req , res) =>{
@@ -231,15 +234,16 @@ exports.searchUser = async (req , res) =>{
 exports.logout = async (req, res)=>{
   try{
     res.cookie('token' , '',{
-      maxAge:Date.now(),
+      maxAge:0,
       httpOnly:true,
       sameSite:"none",
       secure:true,
+      partitioned:true,
     })
     res.status(201).json({msg: 'logout successfully'});
 
   }catch (err){
-    res.status(400).json({msg : "error in logout" , err:err.message})
+    res.status(400).json({msg : "error in logout"})
 
   }
 }

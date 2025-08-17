@@ -62,7 +62,7 @@ exports.allPost = async (req , res) =>{
                 model: 'user',
             },
         })
-        res.status(200).json({msg:'post fetched!' , posts});
+        res.status(201).json({msg:'post fetched!' , posts});
 
     }catch (err){
         res.status(400).json({msg:"error in all post!" , err:err.message})
@@ -82,7 +82,7 @@ exports.deletePost = async (req,res) =>{
         }
         const userId = req.user._id.toString();
         const adminId = postExists.admin._id.toString();
-        if(userId != adminId){
+        if(userId !== adminId){
             return res.status(400).json({msg:'you are not authorized to delete this post !'});
         }
         if(postExists.media){
@@ -106,6 +106,7 @@ exports.deletePost = async (req,res) =>{
         {new:true}
     )
     await Post.findByIdAndDelete(id);
+    res.status(200).json({msg : 'Post deleted !'});
 
 
 
@@ -114,7 +115,7 @@ exports.deletePost = async (req,res) =>{
          res.status(400).json({msg:"error in delete post" , err:err.message});
         
     }
-}
+};
 
 exports.likePost = async (req, res)=>{
     try{
@@ -128,14 +129,14 @@ exports.likePost = async (req, res)=>{
         }
         if(post.likes.includes(req.user._id)){
             await Post.findByIdAndUpdate(id  ,
-                 {$pull:{likes:request.user._id}},
+                 {$pull:{likes:req.user._id}},
                 {new:true}
 
             );
             return res.status(201).json({msg:'post unliked!'});
         }
           await Post.findByIdAndUpdate(id  , 
-             {$push:{likes:request.user._id}},
+             {$push:{likes:req.user._id}},
                 {new:true}
 
             );
@@ -170,7 +171,7 @@ exports.repost = async (req , res) => {
          {
             new:true
          })
-         res.status(201).json({msg:'error in repost!'});
+         res.status(201).json({msg:'reposted!'});
 
 
     }catch(err){
@@ -187,14 +188,14 @@ exports.singlePost = async (req , res) =>{
 
 
         }
-        const post = await Post.findById(id).populate({path:'admin' , select:'-password'}).populate({path: likes , select: '-password'})
+        const post = await Post.findById(id).populate({path:'admin' , select:'-password'}).populate({path: 'likes' , select: '-password'})
         .populate({
             path:'comments',
             populate:{
                 path:'admin',
             },
         })
-        res.status(200).json({msg :'post fetched! '});
+        res.status(200).json({msg :'post fetched! ' , post} );
 
 
     }catch(err){

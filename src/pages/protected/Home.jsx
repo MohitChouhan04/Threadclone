@@ -37,10 +37,7 @@ const Home = () => {
            : <Typography variant='h6' textAlign={'center'} mb={5}>No Post yet!</Typography>
            :isLoading?<Loading/> : null
       }
-    <Post/>
-    <Post/>
-    <Post/>
-    <Post/>
+ 
     </Stack>
     {
       showMore ? 

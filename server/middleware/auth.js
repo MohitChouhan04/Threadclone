@@ -10,7 +10,7 @@ const auth = async (req , res ,next) =>{
             return res.status(400).json({msg : 'No token in auth!'});
         }
         const decodedToken = jwt.verify(token,process.env.JWT_SECRET);
-        console.log(decodedToken);
+        // console.log(decodedToken);
         if(!decodedToken){
             return res.status(400).json({msg : 'Error while decoding token in auth!'});
         }

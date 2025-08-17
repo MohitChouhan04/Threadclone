@@ -5,10 +5,10 @@ import { createSlice } from '@reduxjs/toolkit'
 
 export const serviceSlice = createSlice({
   name: 'service',
-  initialState:{openAddPostModal:false ,openEditProfileModel:false , anchorE1:null , anchorE2:null , darkMode:false , myInfo: null , user:{} , allPosts:[] , postId:null , searchedUsers:[]},
+  initialState:{openAddPostModel:false ,openEditProfileModel:false , anchorE1:null , anchorE2:null , darkMode:false , myInfo: null , user:{} , allPosts:[] , postId:null , searchedUsers:[]},
   reducers: {
     addPostModel : (state , action) =>{
-        state.openAddPostModal = action.payload;
+        state.openAddPostModel = action.payload;
 
     },
     editProfileModel : (state , action) =>{
@@ -28,7 +28,7 @@ export const serviceSlice = createSlice({
 
     },
     addMyInfo : (state , action) =>{
-      state.myInfo = action.payload.me;
+      state.myInfo = action.payload;
     },
     addUser: (state , action) =>{
       state.user = action.payload;

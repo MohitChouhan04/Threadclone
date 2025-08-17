@@ -18,7 +18,7 @@ const Input = () => {
    mx={'auto'} onClick ={handleAddPost}>
     <Stack flexDirection={'row'} alignItems={'center'} gap={2}>
       <Avatar src={myInfo ? myInfo.profilePic : ''} alt={myInfo ? myInfo.userName : ''}/>
-      <Typography color={'greyText'}>start a thread...</Typography>
+      <Typography color={'greyText'}>start a Post...</Typography>
 
     </Stack>
     <Button size="medium" sx={{

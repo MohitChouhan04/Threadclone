@@ -27,7 +27,7 @@ const Mymenu = () => {
   return (
     <Menu
       anchorEl={anchorE2}
-      open={anchorE2 != null ? true : false }
+      open={anchorE2 !== null ? true : false }
       onClose={handleclose}
       anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       transformOrigin={{ vertical: "top", horizontal: "right" }}

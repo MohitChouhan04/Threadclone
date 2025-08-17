@@ -20,12 +20,13 @@ const PostTwo = ({e}) => {
   const _700 = useMediaQuery("(min-width:700px)");
 
   const handleLike = async () => {
+    setIsLiked(prev => !prev);
     await likePost(e?._id);
   }
 
   const checkIsLiked = () =>{
     if(e?.likes.length > 0 ){
-      const variable = (e.likes.filter((ele)=>ele.id === myInfo._id));
+      const variable = (e.likes.filter((ele)=>ele._id === myInfo._id));
         if(variable.length > 0) {
           setIsLiked(true);
           return;
@@ -107,9 +108,11 @@ const PostTwo = ({e}) => {
           <Stack flexDirection={"row"} gap={2} m={1}>
             {
               isLinked ? 
-              (<FaHeart size={_700 ? 32 : _300 ? 28 : 24} onClick={handleLike}/>)
-              :
+
+              (<FaHeart size={_700 ? 32 : _300 ? 28 : 24} onClick={handleLike}/>):
               (<CiHeart size={_700 ? 32 : _300 ? 28 : 24} onClick={handleLike}/>)
+              
+ 
             }
 
             <Link to={`/post/${e?._id}#comment`} className="link">

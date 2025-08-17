@@ -27,9 +27,11 @@ exports.addComment = async (req,res) =>{
         await Post.findByIdAndUpdate(id , {
             $push : {comments:newComment._id},
         } , {new:true});
-        await User.findByIdAndUpdate(req.user._id,{
+        await User.findByIdAndUpdate(req.user._id,
+            {
             $push : {replies:newComment._id},
-        } , {
+        } , 
+        {
             new:true,
         });
 
@@ -59,7 +61,7 @@ exports.deleteComment = async (req , res) =>{
         if(postExists.comments.includes(newId)){
             const id1 = commentExists.admin._id.toString();
             const id2 = req.user._id.toString();
-            if(id1 != id2){
+            if(id1 !== id2){
                 return res.status(400).json({msg:'you are not authorized to delete comment!'});
             }
             await Post.findByIdAndUpdate(postId , {

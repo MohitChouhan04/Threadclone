@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react';
 import { IoIosMore } from "react-icons/io";
 import { useSelector } from 'react-redux';
 import { useDeleteCommentMutation, useSinglePostQuery } from '../../../redux/service';
-const Comment = ({e , postId} ) => {
-    const [anchorEl , setAnchorEL] = useState(null);
+const Comments = ({e , postId} ) => {
+    const [anchorEl , setAnchorEl] = useState(null);
     const [isAdmin , setIsAdmin] = useState()
     const {darkMode , myInfo} = useSelector((state=>state.service));
     const _700 = useMediaQuery("(min-width:700px)");
@@ -22,7 +22,7 @@ const Comment = ({e , postId} ) => {
         refetch();
     };
     const handleclose = () => {
-        setAnchorEL(null);
+        setAnchorEl(null);
     };
     const checkIsAdmin = () => {
         if(e && myInfo){
@@ -82,7 +82,7 @@ const Comment = ({e , postId} ) => {
         >
             <p>24min</p>
            {
-            isAdmin ?  <IoIosMore size={_700 ?28:20} onClick={(e)=>setAnchorEL(e.currentTarget)} className='image-icon'/> :
+            isAdmin ?  <IoIosMore size={_700 ?28:20} onClick={(e)=>setAnchorEl(e.currentTarget)} className='image-icon'/> :
              <IoIosMore size={_700 ?28:20} className='image-icon'/>
            }
 
@@ -91,7 +91,7 @@ const Comment = ({e , postId} ) => {
     </Stack>
     <Menu
           anchorEl={anchorEl}
-          open={anchorEl!=null? true:false}
+          open={anchorEl!==null? true:false}
           onClose={handleclose}
           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
           transformOrigin={{ vertical: "top", horizontal: "right" }}
@@ -102,4 +102,4 @@ const Comment = ({e , postId} ) => {
   )
 }
 
-export default Comment
+export default Comments

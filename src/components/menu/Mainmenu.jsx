@@ -37,7 +37,7 @@ const Mainmenu = () => {
 
   return (
     <>
-    <Menu anchorEl={anchorE1} open={anchorE1 != null ? true :false} onClose={handleclose} anchorOrigin={{vertical:'bottom' , horizontal:'right'}}
+    <Menu anchorEl={anchorE1} open={anchorE1 !== null ? true :false} onClose={handleclose} anchorOrigin={{vertical:'bottom' , horizontal:'right'}}
     transformOrigin={{vertical:'top',horizontal:'right'}}
     >
         <MenuItem onClick={handletoggletheme}>Toggle Theme</MenuItem>

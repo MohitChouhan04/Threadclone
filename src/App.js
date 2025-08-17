@@ -48,7 +48,7 @@ function App() {
       <Route exact path="profile" element={<Profilelayout/>}>
       <Route exact path="threads/:id" element={<Thread/>}/>
       <Route exact path="replies/:id" element={<Replies/>}/>
-      <Route exact path="reposts/:id" element={<Repost/>}/>
+      <Route exact path="repost/:id" element={<Repost/>}/>
       </Route>
       </Route> 
       

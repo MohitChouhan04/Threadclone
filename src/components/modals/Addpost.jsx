@@ -8,7 +8,7 @@ import { useAddPostMutation } from '../../redux/service';
 import Loading from '../Common/Loading'
 
 const Addpost = () => {
-    const {openAddPostModal ,myInfo} = useSelector(state => state.service);
+    const {openAddPostModel ,myInfo} = useSelector(state => state.service);
     const [addNewPost , addNewPostData] = useAddPostMutation();
     const _700  = useMediaQuery("(min-width:700px)");
     const _500  = useMediaQuery("(min-width:500px)");
@@ -30,19 +30,8 @@ const Addpost = () => {
         await addNewPost(data);
 
     };
-    useEffect(() =>{
-
-        if(addNewPostData.isSuccess){
-            setText();
-            setMedia();
-            dispatch(addPostModel.data(false))
-            console.log(addNewPostData.data);
-        }
-
-        if(addNewPostData.isError){
-            console.log(addNewPostData.error.data);
-        }
-    } , [addNewPostData.isSuccess , addNewPostData.isSuccess])
+    
+   
 
     const [text , setText] = useState();
     const [media , setMedia] = useState();
@@ -52,13 +41,25 @@ const Addpost = () => {
     const handleclose= () =>{
         dispatch(addPostModel(false));
     };
+     useEffect(() =>{
+    if(addNewPostData.isSuccess){
+            setText();
+            setMedia();
+            dispatch(addPostModel(false))
+            console.log(addNewPostData.data);
+        }
+
+        if(addNewPostData.isError){
+            console.log(addNewPostData.error.data);
+        }
+    } , [addNewPostData.isSuccess , addNewPostData.isSuccess])
   
 
 
 
   return (
     <>
-    <Dialog open={openAddPostModal} onClose={handleclose} fullWidth fullScreen={_700?false:true} >
+    <Dialog open={openAddPostModel} onClose={handleclose} fullWidth fullScreen={_700?false:true} >
         {
             addNewPostData?.isLoading ? <Stack height={'60vh'}>
                 <Loading/>
@@ -79,7 +80,7 @@ const Addpost = () => {
                         {myInfo? myInfo.useName:''}
 
                  </Typography>
-                    <textarea cols={_500?40:25} rows={2} className='text1' placeholder='start a Thread...'  autoFocus onChange={(e)=>setText(e.target.value)}/>
+                    <textarea cols={_500?40:25} rows={2} className='text1' placeholder='start a Post.....'  autoFocus onChange={(e)=>setText(e.target.value)}/>
 
                    {
                     media ? 

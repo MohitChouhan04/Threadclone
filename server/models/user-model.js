@@ -21,12 +21,12 @@ const userSchema = new mongoose.Schema({
         type:String,
 
     },
-    profilepic:{
+    profilePic:{
         type:String,
         default:"emptyprofile"
     },
     public_id:{
-        type:String
+        type:String,
     },
     followers:[{type:mongoose.Schema.Types.ObjectId ,ref:'user'}],
 

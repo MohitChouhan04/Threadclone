@@ -87,7 +87,7 @@ const Editprofile = () => {
           <Stack flexDirection={"column"} gap={1}>
             <Avatar
               src={pic ? URL.createObjectURL(pic) : myInfo ? myInfo.profilePic : ''}
-              alt={myInfo ? myInfo.useName : ' '}
+              alt={myInfo ? myInfo.userName : ' '}
               sx={{ width: 96, height: 96, alignSelf: "center" }}
             />
             <Button
@@ -172,7 +172,7 @@ const Editprofile = () => {
             />
           </Stack>
           <Button
-            size="larget"
+            size="large"
             sx={{
               border: "2px solid gray",
               borderRadius: "10px",

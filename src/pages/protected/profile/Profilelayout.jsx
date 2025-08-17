@@ -28,10 +28,10 @@ const Profilelayout = () => {
     if(data && myInfo){
       const isTrue = data.user.followers.filter((e) => e._id === myInfo._id);
       if(isTrue.length > 0){
-        setIsFollowing(true);
+        setIsFollowing(false);
 
       }
-      setIsFollowing(false);
+      setIsFollowing(true);
     }
   }
   
@@ -90,7 +90,7 @@ const Profilelayout = () => {
         </Stack>
         <Avatar src={data ? data.user ?data.user.profilePic : 'bio' :'bio'} alt={data ? data.user ?data.user.userName : '' :''} sx={{width:_300?60 :40, height:_300?60:40}}/>
     </Stack>
-    <Typography variant='subtitled2'>{data ? data.user ? data.user.bio:'':''} bio</Typography>
+    <Typography variant='subtitled2'>{data ? data.user ? data.user.bio:'':''}</Typography>
     <Stack flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}>
       <Typography variant='subtitled2' color='gray'>{
         data ? data.user ? data.user.followers.length > 0 ? `${data.user.followers.length} followers`: 'No Followers':'':''
@@ -124,7 +124,7 @@ const Profilelayout = () => {
    mx={'auto'}
    
    > 
-   <Link to={`/profile/threads/${data?.user._id}`} className={`link ${darkMode ? 'mode' :'' }`}>Threads</Link>
+   <Link to={`/profile/threads/${data?.user._id}`} className={`link ${darkMode ? 'mode' :'' }`}>Posts</Link>
    <Link to={`/profile/replies/${data?.user._id}`} className={`link ${darkMode ? 'mode' :'' }`}>Replies</Link>
    <Link to={`/profile/repost/${data?.user._id}`} className={`link ${darkMode ? 'mode' :'' }`}>Reposts</Link>
    </Stack>

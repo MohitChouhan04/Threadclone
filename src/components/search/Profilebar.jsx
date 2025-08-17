@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const Profilebar = ({e}) => {
   const {darkMode} = useSelector((state=>state.service));
-  const _700 = useMediaQuery("(min-width:700px)")
+  const _700 = useMediaQuery("(min-width:700px)");
   return (
     <>
     <Stack 
@@ -16,6 +16,7 @@ const Profilebar = ({e}) => {
     borderRadius={'15px'}
     maxWidth={'700px'}
     sx={{':hover':{cursor:'pointer'}}}
+  
     >
     <Stack flexDirection={'row'} gap={2}>
         <Avatar src={e ? e.profilePic : ''} alt={e ? e.userName : ''} />
